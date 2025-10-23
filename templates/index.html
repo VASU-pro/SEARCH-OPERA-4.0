@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Media Search</title>
+</head>
+<body>
+    <h1>Mini Media Search</h1>
+    <form action="/search" method="get">
+        <input type="text" name="q" placeholder="Search videos or images">
+        <input type="submit" value="Search">
+    </form>
+    <hr>
+    {% if results %}
+        <h3>Results for "{{ query }}"</h3>
+        {% for item in results %}
+            <p>
+                <b>{{ item.title }}</b><br>
+                {% if item.type == 'image' %}
+                    <img src="{{ item.url }}" width="120"><br>
+                    <a href="{{ item.url }}" download>Download Image</a>
+                {% elif item.type == 'video' %}
+                    <a href="/download?url={{ item.url }}&quality=720">Download 720p</a> |
+                    <a href="/download?url={{ item.url }}&quality=480">Download 480p</a> |
+                    <a href="/download?url={{ item.url }}&quality=360">Download 360p</a> |
+                    <a href="/download?url={{ item.url }}&type=mp3&quality=320">MP3 320k</a> |
+                    <a href="/download?url={{ item.url }}&type=mp3&quality=128">MP3 128k</a>
+                {% endif %}
+            </p>
+            <hr>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
